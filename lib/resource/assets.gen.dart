@@ -20,6 +20,9 @@ class Assets {
   /// File path: assets/icons/empty.svg
   static const SvgGenImage iconsEmpty = SvgGenImage('assets/icons/empty.svg');
 
+  /// File path: assets/icons/kb.svg
+  static const SvgGenImage iconsKb = SvgGenImage('assets/icons/kb.svg');
+
   /// File path: assets/icons/ornament_landing.svg
   static const SvgGenImage iconsOrnamentLanding =
       SvgGenImage('assets/icons/ornament_landing.svg');
@@ -32,6 +35,9 @@ class Assets {
   static const AssetGenImage imagesBackgroundLogin =
       AssetGenImage('assets/images/background_login.jpg');
 
+  /// File path: assets/images/kb.png
+  static const AssetGenImage imagesKb = AssetGenImage('assets/images/kb.png');
+
   /// File path: assets/lang/en.json
   static const String langEn = 'assets/lang/en.json';
 
@@ -42,9 +48,11 @@ class Assets {
   List<dynamic> get values => [
         colorColors,
         iconsEmpty,
+        iconsKb,
         iconsOrnamentLanding,
         iconsOrnamentLogin,
         imagesBackgroundLogin,
+        imagesKb,
         langEn,
         langId
       ];
