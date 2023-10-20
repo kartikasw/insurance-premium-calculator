@@ -1,0 +1,39 @@
+{
+  "productName": "KB Insurance",
+  "tagLine": "Make Life Easy\nWith  ",
+  "appDescription": "Kalkulator Premi",
+
+  "loginWelcome": "Selamat datang, Agent!",
+  "loginDescription": "Masuk ke akun Anda.",
+
+  "username": "Username",
+  "password": "Kata Sandi",
+  "login": "Masuk",
+
+  "addPremium": "Tambah Pertanggungan Asuransi",
+  "addPremiumCalculation": "Hitung premi asuransi mobil yang dibayar oleh nasabah",
+
+  "history": "Riwayat Perhitungan",
+  "seeMore": "Selengkapnya",
+
+  "addCalculation": "Tambah Perhitungan",
+  "add": "Tambah",
+
+  "customerName": "Nama Nasabah",
+  "coveragePeriod": "Periode Pertanggungan",
+  "vehicleType": "Pertanggungan / Kendaraan",
+  "coverage": "Harga Pertanggungan",
+  "coverageType": "Jenis Pertanggungan",
+  "coverageRisk": "Risiko Pertanggungan",
+
+  "coverageTypeComprehensive": "Comprehensive",
+  "coverageTypeTotalLossOnly": "Total Loss Only",
+  "coverageRiskFlood": "Banjir",
+  "coverageRiskEarthquake": "Gempa Bumi",
+
+  "emptyHistory": "Anda belum pernah menghitung premi nasabah",
+
+  "loading": "Sedang memuat...",
+
+  "errorEmpty": "Data tidak boleh kosong"
+}

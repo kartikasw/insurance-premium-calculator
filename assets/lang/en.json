@@ -1,0 +1,39 @@
+{
+  "productName": "KB Insurance",
+  "tagLine": "Make Life Easy\nWith  ",
+  "appDescription": "Premium Calculator",
+
+  "loginWelcome": "Welcome, Agent!",
+  "loginDescription": "Login to your account.",
+
+  "username": "Username",
+  "password": "Password",
+  "login": "Login",
+
+  "addPremium": "Add Insurance Coverage",
+  "addPremiumCalculation": "Calculate customer's car insurance premium",
+
+  "history": "Calculation History",
+  "seeMore": "See More",
+
+  "addCalculation": "Add Calculation",
+  "add": "Add",
+
+  "customerName": "Customer Name",
+  "coveragePeriod": "Coverage Period",
+  "vehicleType": "Vehicle Type",
+  "coverage": "Coverage",
+  "coverageType": "Coverage Type",
+  "coverageRisk": "Coverage Risk",
+
+  "coverageTypeComprehensive": "Comprehensive",
+  "coverageTypeTotalLossOnly": "Total Loss Only",
+  "coverageRiskFlood": "Flood",
+  "coverageRiskEarthquake": "Earthquake",
+
+  "emptyHistory": "You haven't done any calculation",
+
+  "loading": "Loading...",
+
+  "errorEmpty": "Can't be empty"
+}
