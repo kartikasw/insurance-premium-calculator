@@ -5,6 +5,13 @@ class FormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class FormEventLogin extends FormEvent {
+  FormEventLogin({required this.username, required this.password});
+
+  final String username;
+  final String password;
+}
+
 class FormEventSubmitPremiumForm extends FormEvent {
   FormEventSubmitPremiumForm({
     required this.customerName,
@@ -22,3 +29,5 @@ class FormEventSubmitPremiumForm extends FormEvent {
   final CoverageType coverageType;
   final List<CoverageRisk>? coverageRisk;
 }
+
+class FormEventLogout extends FormEvent {}

@@ -7,5 +7,11 @@ abstract class Repository {
     required String password,
   });
 
+  Future<(String?, Failure?)> addPremiumCalculation(
+    Map<String, dynamic> data,
+  );
+
   Future<(List<History>?, Failure?)> getHistoryList();
+
+  Future<(String?, Failure?)> logout();
 }

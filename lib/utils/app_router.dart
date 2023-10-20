@@ -9,7 +9,10 @@ import 'package:insurance_challenge/presentation/screens/home_screen.dart';
 import 'package:insurance_challenge/presentation/screens/login_screen.dart';
 
 class AppRouter {
-  static Widget login() => const LoginScreen();
+  static Widget login() => BlocProvider(
+    create: (context) => locator<FormBloc>(),
+    child: const LoginScreen(),
+  );
 
   static Widget home() => BlocProvider(
         create: (context) => locator<HistoryBloc>(),

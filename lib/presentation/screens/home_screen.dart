@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:insurance_challenge/presentation/bloc/form/form_bloc.dart';
 import 'package:insurance_challenge/presentation/common_widgets/button.dart';
 import 'package:insurance_challenge/presentation/common_widgets/history_list.dart';
 import 'package:insurance_challenge/presentation/common_widgets/icon.dart';
@@ -95,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       icon: Icons.logout_rounded,
                       size: 28,
                       margin: const EdgeInsets.only(left: 12),
-                      onTap: () {},
+                      onTap: _onLogoutClick,
                     ),
                   ],
                 ),
@@ -117,6 +119,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _onSeeMoreClick() {
     Navigation.slideToLeft(context, AppRouter.history());
+  }
+
+  void _onLogoutClick() {
+    BlocProvider.of<FormBloc>(context).add(FormEventLogout());
   }
 }
 

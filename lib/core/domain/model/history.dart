@@ -1,4 +1,3 @@
-import 'package:insurance_challenge/resource/string_resource.dart';
 import 'package:insurance_challenge/utils/enum/coverage_risk.dart';
 import 'package:insurance_challenge/utils/enum/coverage_type.dart';
 
