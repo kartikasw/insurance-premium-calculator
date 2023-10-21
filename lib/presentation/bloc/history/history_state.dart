@@ -17,6 +17,10 @@ class HistoryStateLoading extends HistoryState {
   const HistoryStateLoading({super.list});
 }
 
+class HistoryStateRefreshing extends HistoryState {
+  const HistoryStateRefreshing({super.list});
+}
+
 class HistoryStateSuccess extends HistoryState {
   const HistoryStateSuccess({super.list});
 }

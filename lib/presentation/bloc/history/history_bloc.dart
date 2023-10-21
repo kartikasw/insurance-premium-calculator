@@ -21,10 +21,16 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
     HistoryEventGetHistoryList event,
     Emitter<HistoryState> emit,
   ) async {
-    emit(HistoryStateLoading(list: state.list));
+    if (event.refresh) {
+      emit(HistoryStateRefreshing(list: state.list));
+    } else {
+      emit(HistoryStateLoading(list: state.list));
+    }
+
     (List<History>?, Failure?) result = await _getHistoryList.execute();
 
     if (result.$2 == null) {
+      await Future.delayed(Duration(seconds: 3));
       emit(HistoryStateSuccess(list: result.$1!));
     } else {
       emit(HistoryStateError(result.$2!.message));

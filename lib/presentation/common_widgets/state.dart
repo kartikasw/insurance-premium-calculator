@@ -29,7 +29,6 @@ class LoadingState {
         ),
       ),
     );
-    debugPrint('create loading state, ${_context == null}');
   }
 
   void show() {

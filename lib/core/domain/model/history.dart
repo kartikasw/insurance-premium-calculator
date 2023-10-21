@@ -6,10 +6,10 @@ class History {
     this.customerName = 'Kartika Sari',
     this.period = '',
     this.vehicleType = 'vehicleType',
-    this.coverage = 0.0,
+    this.coverage = 0,
     this.coverageType = CoverageType.comprehensive,
-    this.coverageRisk = const [],
-    this.premium = 0.0,
+    this.coverageRisk = const [CoverageRisk.flood, CoverageRisk.earthQuake],
+    this.premium = 0,
     this.timestamp = '',
   });
 

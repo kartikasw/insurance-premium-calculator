@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:insurance_challenge/core/domain/model/history.dart';
 import 'package:insurance_challenge/presentation/bloc/form/form_bloc.dart';
+import 'package:insurance_challenge/presentation/bloc/history/history_bloc.dart';
 import 'package:insurance_challenge/presentation/common_widgets/button.dart';
 import 'package:insurance_challenge/presentation/common_widgets/history_list.dart';
 import 'package:insurance_challenge/presentation/common_widgets/icon.dart';
@@ -20,36 +22,52 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => BlocProvider.of<HistoryBloc>(context)
+          .add(HistoryEventGetHistoryList()),
+    );
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          _getHeader(),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
-            child: Divider(color: ColorName.yellow700, thickness: 1.5),
-          ),
-          Container(
-            margin: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Expanded(
-                  child: Text(
-                    context.tr(StringRes.history.name),
-                    style: context.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: ColorName.yellow700,
+    return BlocListener<HistoryBloc, HistoryState>(
+      listener: _onHistoryBlocListener,
+      child: Scaffold(
+        body: Column(
+          children: [
+            _getHeader(),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
+              child: Divider(color: ColorName.yellow700, thickness: 1.5),
+            ),
+            Container(
+              margin: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                    child: Text(
+                      context.tr(StringRes.history.name),
+                      style: context.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: ColorName.yellow700,
+                      ),
                     ),
                   ),
-                ),
-                KbTextButton(StringRes.seeMore.name, onTap: _onSeeMoreClick)
-              ],
+                  KbTextButton(StringRes.seeMore.name, onTap: _onSeeMoreClick)
+                ],
+              ),
             ),
-          ),
-          const Expanded(child: HistoryList())
-        ],
+            const Expanded(
+              child: HistoryList(
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -113,8 +131,19 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _onAddClick() {
-    Navigation.slideToLeft(context, AppRouter.form());
+  Future<void> _onAddClick() async {
+    dynamic result = await Navigation.slideToLeft(context, AppRouter.form());
+
+    if (result != null && mounted) {
+      dynamic refresh = await Navigation.slideToLeft(
+        context,
+        AppRouter.result(result as History),
+      );
+
+      if (refresh != null && refresh as bool && mounted) {
+        BlocProvider.of<HistoryBloc>(context).add(HistoryEventGetHistoryList());
+      }
+    }
   }
 
   void _onSeeMoreClick() {
@@ -123,6 +152,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _onLogoutClick() {
     BlocProvider.of<FormBloc>(context).add(FormEventLogout());
+  }
+
+  void _onHistoryBlocListener(BuildContext context, HistoryState state) {
+    if (state is HistoryStateLoading) {
+    } else if (state is HistoryStateSuccess) {
+    } else if (state is HistoryStateError) {}
   }
 }
 

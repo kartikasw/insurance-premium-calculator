@@ -1,5 +1,6 @@
 {
   "productName": "KB Insurance",
+  "companyName": "KB Insurance Indonesia",
   "tagLine": "Make Life Easy\nWith  ",
   "appDescription": "Premium Calculator",
 
@@ -25,6 +26,7 @@
   "coverage": "Coverage",
   "coverageType": "Coverage Type",
   "coverageRisk": "Coverage Risk",
+  "premium": "Premium",
 
   "coverageTypeComprehensive": "Comprehensive",
   "coverageTypeTotalLossOnly": "Total Loss Only",

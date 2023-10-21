@@ -123,6 +123,12 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigation.slideToLeft(context, AppRouter.home());
     } else if (state is KbFormStateError) {
       _loading?.dismiss();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(state.errMessage),
+          action: SnackBarAction(label: 'dismiss', onPressed: () {}),
+        ),
+      );
     }
   }
 }

@@ -19,15 +19,15 @@ class FormEventSubmitPremiumForm extends FormEvent {
     required this.period,
     required this.coverage,
     required this.coverageType,
-    this.coverageRisk,
+    required this.coverageRisk,
   });
 
   final String customerName;
   final String vehicle;
   final DateTime period;
-  final int coverage;
+  final double coverage;
   final CoverageType coverageType;
-  final List<CoverageRisk>? coverageRisk;
+  final List<CoverageRisk> coverageRisk;
 }
 
 class FormEventLogout extends FormEvent {}

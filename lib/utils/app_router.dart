@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:insurance_challenge/core/domain/model/history.dart';
 import 'package:insurance_challenge/di.dart';
 import 'package:insurance_challenge/presentation/bloc/form/form_bloc.dart';
 import 'package:insurance_challenge/presentation/bloc/history/history_bloc.dart';
+import 'package:insurance_challenge/presentation/bloc/result/result_bloc.dart';
 import 'package:insurance_challenge/presentation/screens/form_screen.dart';
 import 'package:insurance_challenge/presentation/screens/history_screen.dart';
 import 'package:insurance_challenge/presentation/screens/home_screen.dart';
 import 'package:insurance_challenge/presentation/screens/login_screen.dart';
+import 'package:insurance_challenge/presentation/screens/result_screen.dart';
 
 class AppRouter {
   static Widget login() => BlocProvider(
@@ -27,5 +30,10 @@ class AppRouter {
   static Widget history() => BlocProvider(
     create: (context) => locator<HistoryBloc>(),
     child: const HistoryScreen(),
+  );
+
+  static Widget result(History history) => BlocProvider(
+    create: (context) => locator<ResultBloc>(),
+    child: ResultScreen(history),
   );
 }

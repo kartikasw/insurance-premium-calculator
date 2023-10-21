@@ -5,4 +5,8 @@ class HistoryEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class HistoryEventGetHistoryList extends HistoryEvent {}
+class HistoryEventGetHistoryList extends HistoryEvent {
+  HistoryEventGetHistoryList({this.refresh = false});
+
+  final bool refresh;
+}

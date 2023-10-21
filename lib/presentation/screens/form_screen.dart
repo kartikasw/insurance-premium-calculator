@@ -37,7 +37,9 @@ class _FormScreenState extends State<FormScreen> {
   @override
   void initState() {
     _periodController = TextEditingController(
-      text: dateFormat.format(DateTime.now()),
+      text: dateFormat.format(
+        DateTime.now(),
+      ),
     );
     super.initState();
   }
@@ -160,7 +162,7 @@ class _FormScreenState extends State<FormScreen> {
           customerName: _nameController.text,
           vehicle: _vehicleController.text,
           period: dateFormat.parse(_periodController.text),
-          coverage: int.parse(_coverageController.text),
+          coverage: double.parse(_coverageController.text),
           coverageType: _selectedType,
           coverageRisk: _selectedRisk,
         ),
@@ -174,6 +176,7 @@ class _FormScreenState extends State<FormScreen> {
       _loading?.show();
     } else if (state is KbFormStateSuccess) {
       _loading?.dismiss();
+      Navigator.pop(context, state.history);
     } else if (state is KbFormStateError) {
       _loading?.dismiss();
     }

@@ -1,4 +1,5 @@
 import 'package:insurance_challenge/core/domain/model/failure.dart';
+import 'package:insurance_challenge/core/domain/model/history.dart';
 import 'package:insurance_challenge/core/domain/repository/repository.dart';
 
 class AddPremiumCalculation {
@@ -6,7 +7,7 @@ class AddPremiumCalculation {
 
   AddPremiumCalculation(this.repository);
 
-  Future<(String?, Failure?)> execute(Map<String, dynamic> data) {
+  Future<(String?, Failure?)> execute(History data) {
     return repository.addPremiumCalculation(data);
   }
 }

@@ -9,7 +9,10 @@ class KbFormStateInitial extends KbFormState {}
 
 class KbFormStateLoading extends KbFormState {}
 
-class KbFormStateSuccess extends KbFormState {}
+class KbFormStateSuccess extends KbFormState {
+  KbFormStateSuccess(this.history);
+  final History? history;
+}
 
 class KbFormStateError extends KbFormState {
   final String errMessage;

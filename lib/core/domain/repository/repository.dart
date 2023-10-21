@@ -7,9 +7,7 @@ abstract class Repository {
     required String password,
   });
 
-  Future<(String?, Failure?)> addPremiumCalculation(
-    Map<String, dynamic> data,
-  );
+  Future<(String?, Failure?)> addPremiumCalculation(History data);
 
   Future<(List<History>?, Failure?)> getHistoryList();
 

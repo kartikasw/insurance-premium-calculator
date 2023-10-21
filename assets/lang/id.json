@@ -1,5 +1,6 @@
 {
   "productName": "KB Insurance",
+  "companyName": "KB Insurance Indonesia",
   "tagLine": "Make Life Easy\nWith  ",
   "appDescription": "Kalkulator Premi",
 
@@ -25,6 +26,7 @@
   "coverage": "Harga Pertanggungan",
   "coverageType": "Jenis Pertanggungan",
   "coverageRisk": "Risiko Pertanggungan",
+  "premium": "Premi",
 
   "coverageTypeComprehensive": "Comprehensive",
   "coverageTypeTotalLossOnly": "Total Loss Only",

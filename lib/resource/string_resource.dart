@@ -1,5 +1,6 @@
 enum StringRes {
   productName,
+  companyName,
   tagLine,
   appDescription,
 
@@ -25,6 +26,7 @@ enum StringRes {
   coverage,
   coverageType,
   coverageRisk,
+  premium,
 
   coverageTypeComprehensive,
   coverageTypeTotalLossOnly,

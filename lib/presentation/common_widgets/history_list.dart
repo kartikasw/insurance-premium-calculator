@@ -7,43 +7,96 @@ import 'package:insurance_challenge/presentation/bloc/history/history_bloc.dart'
 import 'package:insurance_challenge/resource/assets.gen.dart';
 import 'package:insurance_challenge/resource/colors.gen.dart';
 import 'package:insurance_challenge/resource/string_resource.dart';
+import 'package:insurance_challenge/utils/app_router.dart';
 import 'package:insurance_challenge/utils/extensions.dart';
+import 'package:insurance_challenge/utils/navigation.dart';
 import 'package:insurance_challenge/utils/utils.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class HistoryList extends StatelessWidget {
+class HistoryList extends StatefulWidget {
   const HistoryList({this.padding, super.key});
 
   final EdgeInsets? padding;
 
   @override
+  State<StatefulWidget> createState() => _HistoryListState();
+}
+
+class _HistoryListState extends State<HistoryList> {
+  late RefreshController _refreshController;
+
+  @override
+  void initState() {
+    _refreshController = RefreshController(initialRefresh: false);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _refreshController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HistoryBloc, HistoryState>(
-      builder: (context, state) {
-        if (state.list.isNotEmpty) {
-          return ListView.builder(
-            padding: padding,
-            itemBuilder: (context, index) => HistoryItem(state.list[index]),
-          );
-        } else {
-          return Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                SvgPicture.asset(
-                  Assets.iconsEmpty.path,
-                  width: context.mediaQuery.size.width * 0.8,
-                ),
-                Text(
-                  context.tr(StringRes.emptyHistory.name),
-                  style: context.textTheme.titleMedium,
-                )
-              ],
-            ),
-          );
-        }
-      },
+    return BlocListener<HistoryBloc, HistoryState>(
+      listener: _onHistoryBlocListener,
+      child: BlocBuilder<HistoryBloc, HistoryState>(
+        builder: (context, state) {
+          if (state is HistoryStateLoading) {
+            return Center(
+              child: CircularProgressIndicator(
+                color: context.colorScheme.primary,
+              ),
+            );
+          } else {
+            return SmartRefresher(
+              onRefresh: () => BlocProvider.of<HistoryBloc>(context).add(
+                HistoryEventGetHistoryList(refresh: true),
+              ),
+              header: WaterDropHeader(
+                waterDropColor: context.colorScheme.primary,
+              ),
+              controller: _refreshController,
+              child: state.list.isNotEmpty
+                  ? ListView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      padding: widget.padding ?? const EdgeInsets.all(20.0),
+                      itemCount: state.list.length,
+                      itemBuilder: (context, index) =>
+                          HistoryItem(state.list[index]),
+                    )
+                  : Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          SvgPicture.asset(
+                            Assets.iconsEmpty.path,
+                            width: context.mediaQuery.size.width * 0.8,
+                          ),
+                          Text(
+                            context.tr(StringRes.emptyHistory.name),
+                            style: context.textTheme.titleMedium,
+                          )
+                        ],
+                      ),
+                    ),
+            );
+          }
+        },
+      ),
     );
+  }
+
+  void _onHistoryBlocListener(BuildContext context, HistoryState state) {
+    if (state is HistoryStateRefreshing) {
+    } else if (state is HistoryStateLoading) {
+    } else if (state is HistoryStateSuccess) {
+      _refreshController.refreshCompleted();
+    } else if (state is HistoryStateError) {
+      _refreshController.refreshCompleted();
+    }
   }
 }
 
@@ -55,7 +108,7 @@ class HistoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () => Navigation.slideToLeft(context, AppRouter.result(history)),
       child: Container(
         padding: const EdgeInsets.all(12),
         margin: const EdgeInsets.only(bottom: 20),

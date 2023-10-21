@@ -12,15 +12,13 @@ class RepositoryImpl implements Repository {
   }
 
   @override
-  Future<(String?, Failure?)> addPremiumCalculation(
-    Map<String, dynamic> data,
-  ) async {
+  Future<(String?, Failure?)> addPremiumCalculation(History data) async {
     return (null, null);
   }
 
   @override
   Future<(List<History>?, Failure?)> getHistoryList() async {
-    return (null, null);
+    return ([History(period: DateTime.now().toString())], null);
   }
 
   @override
