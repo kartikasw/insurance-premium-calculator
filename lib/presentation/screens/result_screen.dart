@@ -2,16 +2,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:insurance_challenge/core/domain/model/history.dart';
 import 'package:insurance_challenge/presentation/bloc/result/result_bloc.dart';
 import 'package:insurance_challenge/presentation/common_widgets/state.dart';
 import 'package:insurance_challenge/resource/assets.gen.dart';
-import 'package:insurance_challenge/utils/enum/coverage_risk.dart';
+import 'package:insurance_challenge/resource/colors.gen.dart';
 import 'package:insurance_challenge/utils/extensions.dart';
 import 'package:insurance_challenge/utils/utils.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class ResultScreen extends StatefulWidget {
   const ResultScreen(this.history, {super.key});
@@ -33,30 +33,33 @@ class _ResultScreenState extends State<ResultScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      child: Scaffold(
-        backgroundColor: context.colorScheme.surface,
-        appBar: AppBar(
-          leading: GestureDetector(
-            onTap: () => Navigator.pop(context, true),
-            child: const Icon(Icons.arrow_back_rounded),
+    return BlocListener<ResultBloc, ResultState>(
+      listener: _onResultBlocListener,
+      child: WillPopScope(
+        child: Scaffold(
+          backgroundColor: ColorName.grey300,
+          appBar: AppBar(
+            leading: GestureDetector(
+              onTap: () => Navigator.pop(context, true),
+              child: const Icon(Icons.arrow_back_rounded),
+            ),
+          ),
+          body: Center(
+            child: BlocBuilder<ResultBloc, ResultState>(
+              builder: (context, state) {
+                if (state is ResultStateSuccess) {
+                  return SfPdfViewer.memory(state.pdfData);
+                } else {
+                  return CircularProgressIndicator(
+                    color: context.colorScheme.primary,
+                  );
+                }
+              },
+            ),
           ),
         ),
-        body: Center(
-          child: BlocBuilder<ResultBloc, ResultState>(
-            builder: (context, state) {
-              if (state is ResultStateLoading) {
-                return CircularProgressIndicator(
-                  color: context.colorScheme.primary,
-                );
-              } else {
-                return PDFView(filePath: state.history);
-              }
-            },
-          ),
-        ),
+        onWillPop: () async => true,
       ),
-      onWillPop: () async => true,
     );
   }
 
@@ -70,7 +73,10 @@ class _ResultScreenState extends State<ResultScreen> {
     String coverageRisk = '';
     List<pw.Widget> risks = [];
 
-    String coverageFormat = currencyWithoutSymbolFormat.format(
+    String coverageFormat = currencyFormat.format(
+      widget.history.coverage,
+    );
+    String coverageFormatWithoutSymbol = currencyWithoutSymbolFormat.format(
       widget.history.coverage,
     );
 
@@ -86,7 +92,7 @@ class _ResultScreenState extends State<ResultScreen> {
         risks.add(
           _createRowData(
             widget.history.coverageRisk[i].defaultTitle,
-            '${currencyWithoutSymbolFormat.format(premium)} ($coverageFormat x ${widget.history.coverageRisk[i].rate})',
+            '${currencyFormat.format(premium)} ($coverageFormatWithoutSymbol x ${widget.history.coverageRisk[i].rate})',
           ),
         );
       }
@@ -126,7 +132,7 @@ class _ResultScreenState extends State<ResultScreen> {
             pw.SizedBox(height: 40),
             pw.Text(
               'General Information',
-              style: pw.TextStyle(fontSize: 16, fontWeight: pw.FontWeight.bold),
+              style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold),
             ),
             pw.SizedBox(height: 8),
             _createRowData('Nama Tertanggung', widget.history.customerName),
@@ -137,7 +143,7 @@ class _ResultScreenState extends State<ResultScreen> {
             pw.SizedBox(height: 40),
             pw.Text(
               'Coverage Information',
-              style: pw.TextStyle(fontSize: 16, fontWeight: pw.FontWeight.bold),
+              style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold),
             ),
             pw.SizedBox(height: 8),
             _createRowData('Jenis Pertanggungan', coverageType),
@@ -145,19 +151,19 @@ class _ResultScreenState extends State<ResultScreen> {
             pw.SizedBox(height: 40),
             pw.Text(
               'Premium Calculation',
-              style: pw.TextStyle(fontSize: 16, fontWeight: pw.FontWeight.bold),
+              style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold),
             ),
             pw.SizedBox(height: 8),
             _createRowData('Periode Pertanggungan', periodFormat),
             _createRowData(
               'Premi Kendaraan',
-              '${currencyWithoutSymbolFormat.format(widget.history.coverage * widget.history.coverageType.rate)} ($coverageFormat x ${widget.history.coverageType.rate})',
+              '${currencyFormat.format(widget.history.coverage * widget.history.coverageType.rate)} ($coverageFormatWithoutSymbol x ${widget.history.coverageType.rate})',
             ),
             for (pw.Widget widget in risks) widget,
             pw.SizedBox(height: 40),
             _createRowData(
               'Total Premi',
-              currencyWithoutSymbolFormat.format(widget.history.premium),
+              currencyFormat.format(widget.history.premium),
             ),
           ],
         ),
@@ -178,9 +184,9 @@ class _ResultScreenState extends State<ResultScreen> {
         children: <pw.Widget>[
           pw.SizedBox(
             width: 250,
-            child: pw.Text(title, style: const pw.TextStyle(fontSize: 18)),
+            child: pw.Text(title, style: const pw.TextStyle(fontSize: 14)),
           ),
-          pw.Text(': $value', style: const pw.TextStyle(fontSize: 18))
+          pw.Text(': $value', style: const pw.TextStyle(fontSize: 14))
         ],
       ),
       pw.SizedBox(height: 8),
@@ -191,5 +197,15 @@ class _ResultScreenState extends State<ResultScreen> {
     String content = await rootBundle.loadString(path);
     debugPrint(content);
     return content;
+  }
+
+  void _onResultBlocListener(BuildContext context, ResultState state) {
+    if (state is ResultStateError) {
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (dialogContext) => ErrorState(state.errMessage),
+      );
+    }
   }
 }

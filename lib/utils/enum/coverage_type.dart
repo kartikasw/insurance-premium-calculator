@@ -15,4 +15,11 @@ enum CoverageType {
   int get code => _code;
 
   double get rate => _rate;
+
+  static getCoverageTypeByCode(int code) {
+    return values.firstWhere(
+      (e) => e.code == code,
+      orElse: () => comprehensive,
+    );
+  }
 }

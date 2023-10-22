@@ -6,7 +6,9 @@
 
   "loginWelcome": "Selamat datang, Agent!",
   "loginDescription": "Masuk ke akun Anda.",
+  "greeting": "'Hi, Agent'",
 
+  "email": "email",
   "username": "Username",
   "password": "Kata Sandi",
   "login": "Masuk",
@@ -37,5 +39,6 @@
 
   "loading": "Sedang memuat...",
 
+  "errorEmailFormat": "Format email salah",
   "errorEmpty": "Data tidak boleh kosong"
 }

@@ -18,6 +18,11 @@ class LandingScreen extends StatefulWidget {
 
 class _LandingScreenState extends State<LandingScreen> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
@@ -95,7 +100,11 @@ class _LandingScreenState extends State<LandingScreen> {
     );
   }
 
-  void _onContinueClick() {
-    Navigation.slideToLeft(context, AppRouter.login());
+  Future<void> _onContinueClick() async {
+    dynamic result = await Navigation.push(context, AppRouter.login());
+
+    if (result != null && mounted) {
+      Navigation.pushReplacement(context, AppRouter.home());
+    }
   }
 }

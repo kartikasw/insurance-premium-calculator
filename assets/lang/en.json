@@ -6,7 +6,9 @@
 
   "loginWelcome": "Welcome, Agent!",
   "loginDescription": "Login to your account.",
+  "greeting": "'Hi, Agent'",
 
+  "email": "email",
   "username": "Username",
   "password": "Password",
   "login": "Login",
@@ -37,5 +39,6 @@
 
   "loading": "Loading...",
 
+  "errorEmailFormat": "Invalid email format",
   "errorEmpty": "Can't be empty"
 }

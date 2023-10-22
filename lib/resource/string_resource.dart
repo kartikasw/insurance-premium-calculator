@@ -6,7 +6,9 @@ enum StringRes {
 
   loginWelcome,
   loginDescription,
+  greeting,
 
+  email,
   username,
   password,
   login,
@@ -37,5 +39,6 @@ enum StringRes {
 
   loading,
 
+  errorEmailFormat,
   errorEmpty;
 }

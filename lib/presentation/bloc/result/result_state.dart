@@ -1,31 +1,27 @@
 part of 'result_bloc.dart';
 
 class ResultState extends Equatable {
-  const ResultState({this.history = ''});
-
-  final String history;
-
   @override
-  List<Object?> get props => [history];
+  List<Object?> get props => [];
 }
 
 class ResultStateInitial extends ResultState {
-  const ResultStateInitial({super.history});
 }
 
 class ResultStateLoading extends ResultState {
-  const ResultStateLoading({super.history});
 }
 
 class ResultStateSuccess extends ResultState {
-  const ResultStateSuccess({super.history});
+  ResultStateSuccess(this.pdfData);
+
+  final Uint8List pdfData;
 }
 
 class ResultStateError extends ResultState {
   final String errMessage;
 
-  const ResultStateError(this.errMessage, {super.history});
+  ResultStateError(this.errMessage);
 
   @override
-  List<Object?> get props => [errMessage, super.history];
+  List<Object?> get props => [errMessage];
 }

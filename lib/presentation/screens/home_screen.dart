@@ -7,6 +7,7 @@ import 'package:insurance_challenge/presentation/bloc/history/history_bloc.dart'
 import 'package:insurance_challenge/presentation/common_widgets/button.dart';
 import 'package:insurance_challenge/presentation/common_widgets/history_list.dart';
 import 'package:insurance_challenge/presentation/common_widgets/icon.dart';
+import 'package:insurance_challenge/presentation/common_widgets/state.dart';
 import 'package:insurance_challenge/resource/colors.gen.dart';
 import 'package:insurance_challenge/resource/string_resource.dart';
 import 'package:insurance_challenge/utils/app_router.dart';
@@ -21,6 +22,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  LoadingState? _loading;
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback(
@@ -32,8 +35,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<HistoryBloc, HistoryState>(
-      listener: _onHistoryBlocListener,
+    return BlocListener<FormBloc, KbFormState>(
+      listener: _onFormBlocListener,
       child: Scaffold(
         body: Column(
           children: [
@@ -106,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Expanded(
                       child: Text(
-                        'Hi, nama orang',
+                        'Hi, Agent',
                         style: context.textTheme.titleLarge
                             ?.copyWith(fontWeight: FontWeight.bold),
                       ),
@@ -132,10 +135,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _onAddClick() async {
-    dynamic result = await Navigation.slideToLeft(context, AppRouter.form());
+    dynamic result = await Navigation.push(context, AppRouter.form());
 
     if (result != null && mounted) {
-      dynamic refresh = await Navigation.slideToLeft(
+      dynamic refresh = await Navigation.push(
         context,
         AppRouter.result(result as History),
       );
@@ -147,17 +150,21 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _onSeeMoreClick() {
-    Navigation.slideToLeft(context, AppRouter.history());
+    Navigation.push(context, AppRouter.history());
   }
 
   void _onLogoutClick() {
     BlocProvider.of<FormBloc>(context).add(FormEventLogout());
   }
 
-  void _onHistoryBlocListener(BuildContext context, HistoryState state) {
-    if (state is HistoryStateLoading) {
-    } else if (state is HistoryStateSuccess) {
-    } else if (state is HistoryStateError) {}
+  void _onFormBlocListener(BuildContext context, KbFormState state) {
+    if (state is KbFormStateLoading) {
+      _loading ??= LoadingState(context);
+      _loading?.show();
+    } else if (state is KbFormStateLogoutSuccess) {
+      _loading?.dismiss();
+      Navigation.pushReplacement(context, AppRouter.login());
+    }
   }
 }
 

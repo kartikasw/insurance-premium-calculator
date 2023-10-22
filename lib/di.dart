@@ -1,5 +1,8 @@
 import 'package:get_it/get_it.dart';
 import 'package:insurance_challenge/core/data/repository_impl.dart';
+import 'package:insurance_challenge/core/data/source/remote/firebase_service.dart';
+import 'package:insurance_challenge/core/data/source/remote/remote_data_source.dart';
+import 'package:insurance_challenge/core/data/source/remote/remote_with_firebase.dart';
 import 'package:insurance_challenge/core/domain/repository/repository.dart';
 import 'package:insurance_challenge/core/domain/use_case/add_premium_calculation.dart';
 import 'package:insurance_challenge/core/domain/use_case/get_history_list.dart';
@@ -12,7 +15,11 @@ import 'package:insurance_challenge/presentation/bloc/result/result_bloc.dart';
 final locator = GetIt.instance;
 
 void setUpDependencies() {
-  locator.registerLazySingleton<Repository>(() => RepositoryImpl());
+  locator.registerLazySingleton(() => FirebaseService());
+  locator.registerLazySingleton<RemoteDataSource>(
+    () => RemoteWithFirebase(locator()),
+  );
+  locator.registerLazySingleton<Repository>(() => RepositoryImpl(locator()));
 
   locator.registerLazySingleton(() => AddPremiumCalculation(locator()));
   locator.registerLazySingleton(() => GetHistoryList(locator()));

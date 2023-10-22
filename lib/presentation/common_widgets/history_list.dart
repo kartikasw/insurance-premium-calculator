@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:insurance_challenge/core/domain/model/history.dart';
 import 'package:insurance_challenge/presentation/bloc/history/history_bloc.dart';
+import 'package:insurance_challenge/presentation/common_widgets/state.dart';
 import 'package:insurance_challenge/resource/assets.gen.dart';
 import 'package:insurance_challenge/resource/colors.gen.dart';
 import 'package:insurance_challenge/resource/string_resource.dart';
@@ -43,7 +44,7 @@ class _HistoryListState extends State<HistoryList> {
       listener: _onHistoryBlocListener,
       child: BlocBuilder<HistoryBloc, HistoryState>(
         builder: (context, state) {
-          if (state is HistoryStateLoading) {
+          if (state is HistoryStateInitial || state is HistoryStateLoading) {
             return Center(
               child: CircularProgressIndicator(
                 color: context.colorScheme.primary,
@@ -96,6 +97,11 @@ class _HistoryListState extends State<HistoryList> {
       _refreshController.refreshCompleted();
     } else if (state is HistoryStateError) {
       _refreshController.refreshCompleted();
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (dialogContext) => ErrorState(state.errMessage),
+      );
     }
   }
 }
@@ -108,7 +114,7 @@ class HistoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigation.slideToLeft(context, AppRouter.result(history)),
+      onTap: () => Navigation.push(context, AppRouter.result(history)),
       child: Container(
         padding: const EdgeInsets.all(12),
         margin: const EdgeInsets.only(bottom: 20),
@@ -129,10 +135,11 @@ class HistoryItem extends StatelessWidget {
                     style: context.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 Text(
-                  dateFormat.format(DateTime.now()),
+                  dateTimeFormat.format(DateTime.parse(history.timestamp)),
                   style: context.textTheme.bodySmall,
                 )
               ],

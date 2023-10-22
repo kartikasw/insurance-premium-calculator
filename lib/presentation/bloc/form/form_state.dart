@@ -14,6 +14,8 @@ class KbFormStateSuccess extends KbFormState {
   final History? history;
 }
 
+class KbFormStateLogoutSuccess extends KbFormState {}
+
 class KbFormStateError extends KbFormState {
   final String errMessage;
 

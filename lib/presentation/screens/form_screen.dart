@@ -33,7 +33,7 @@ class _FormScreenState extends State<FormScreen> {
   List<CoverageRisk> _selectedRisk = [];
 
   LoadingState? _loading;
-
+  
   @override
   void initState() {
     _periodController = TextEditingController(
@@ -49,7 +49,6 @@ class _FormScreenState extends State<FormScreen> {
     _nameController.dispose();
     _coverageController.dispose();
     _vehicleController.dispose();
-    _loading?.close();
     super.dispose();
   }
 
@@ -91,6 +90,7 @@ class _FormScreenState extends State<FormScreen> {
                 controller: _coverageController,
                 keyboardType: TextInputType.number,
                 inputFormatters: [
+                  FilteringTextInputFormatter.deny(RegExp(r'^0+')),
                   FilteringTextInputFormatter.allow(RegExp(r'\d'))
                 ],
               ),
@@ -122,7 +122,7 @@ class _FormScreenState extends State<FormScreen> {
             ),
           )
           .toList(),
-      onChanged: (value) => _onTypeChange,
+      onChanged: (value) => _onTypeChange(value as CoverageType),
     );
   }
 
@@ -156,7 +156,6 @@ class _FormScreenState extends State<FormScreen> {
 
   void _onAddClick() {
     if (_formKey.currentState!.validate()) {
-      debugPrint('_onAddClick');
       BlocProvider.of<FormBloc>(context).add(
         FormEventSubmitPremiumForm(
           customerName: _nameController.text,
@@ -179,6 +178,11 @@ class _FormScreenState extends State<FormScreen> {
       Navigator.pop(context, state.history);
     } else if (state is KbFormStateError) {
       _loading?.dismiss();
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (dialogContext) => ErrorState(state.errMessage),
+      );
     }
   }
 }

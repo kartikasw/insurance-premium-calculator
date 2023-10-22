@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:insurance_challenge/resource/colors.gen.dart';
@@ -20,6 +21,7 @@ class KbTextFormField extends StatelessWidget {
     this.obscureText = false,
     this.marginBottom = 25,
     this.inputFormatters,
+    this.validator,
     super.key,
   });
 
@@ -36,6 +38,7 @@ class KbTextFormField extends StatelessWidget {
   final bool obscureText;
   final double marginBottom;
   final List<TextInputFormatter>? inputFormatters;
+  final Function(String)? validator;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +52,11 @@ class KbTextFormField extends StatelessWidget {
         if (required) {
           if (value == null || value.isEmpty) {
             return context.tr(StringRes.errorEmpty.name);
+          }
+        }
+        if (keyboardType == TextInputType.emailAddress) {
+          if (value != null && !EmailValidator.validate(value)) {
+            return context.tr(StringRes.errorEmailFormat.name);
           }
         }
         return null;

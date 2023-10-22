@@ -6,9 +6,9 @@ class FormEvent extends Equatable {
 }
 
 class FormEventLogin extends FormEvent {
-  FormEventLogin({required this.username, required this.password});
+  FormEventLogin({required this.email, required this.password});
 
-  final String username;
+  final String email;
   final String password;
 }
 

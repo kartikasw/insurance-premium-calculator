@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "943794067234",
+    "project_id": "insurance-challenge",
+    "storage_bucket": "insurance-challenge.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:943794067234:android:ea45cd8585b6a8c3b8777b",
+        "android_client_info": {
+          "package_name": "com.kartikadev.insurance_challenge"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtisJIKjIeet7oxO4V8p7L2gKL7XNirXY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

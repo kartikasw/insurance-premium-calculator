@@ -8,17 +8,23 @@ import 'package:insurance_challenge/presentation/bloc/result/result_bloc.dart';
 import 'package:insurance_challenge/presentation/screens/form_screen.dart';
 import 'package:insurance_challenge/presentation/screens/history_screen.dart';
 import 'package:insurance_challenge/presentation/screens/home_screen.dart';
+import 'package:insurance_challenge/presentation/screens/landing_screen.dart';
 import 'package:insurance_challenge/presentation/screens/login_screen.dart';
 import 'package:insurance_challenge/presentation/screens/result_screen.dart';
 
 class AppRouter {
+  static Widget landing() => const LandingScreen();
+
   static Widget login() => BlocProvider(
     create: (context) => locator<FormBloc>(),
     child: const LoginScreen(),
   );
 
-  static Widget home() => BlocProvider(
-        create: (context) => locator<HistoryBloc>(),
+  static Widget home() => MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => locator<HistoryBloc>()),
+          BlocProvider(create: (context) => locator<FormBloc>()),
+        ],
         child: const HomeScreen(),
       );
 

@@ -7,9 +7,7 @@ import 'package:insurance_challenge/presentation/common_widgets/state.dart';
 import 'package:insurance_challenge/presentation/common_widgets/text_filed.dart';
 import 'package:insurance_challenge/resource/assets.gen.dart';
 import 'package:insurance_challenge/resource/string_resource.dart';
-import 'package:insurance_challenge/utils/app_router.dart';
 import 'package:insurance_challenge/utils/extensions.dart';
-import 'package:insurance_challenge/utils/navigation.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -19,19 +17,18 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _usernameController = TextEditingController();
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
-  bool _passwordVisible = false;
+  bool _passwordVisible = true;
 
   LoadingState? _loading;
 
   @override
   void dispose() {
-    _loading?.close();
-    _usernameController.dispose();
+    _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -43,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Scaffold(
         body: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 40),
+          padding: const EdgeInsets.only(right: 25, left: 25, top: 40),
           child: Form(
             key: _formKey,
             child: Column(
@@ -70,9 +67,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 KbTextFormField(
-                  labelText: context.tr(StringRes.username.name),
-                  keyboardType: TextInputType.text,
-                  controller: _usernameController,
+                  labelText: context.tr(StringRes.email.name),
+                  keyboardType: TextInputType.emailAddress,
+                  controller: _emailController,
                   prefixIcon: Icons.person_rounded,
                 ),
                 KbTextFormField(
@@ -88,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       _passwordVisible = !_passwordVisible;
                     });
                   },
-                  obscureText: !_passwordVisible,
+                  obscureText: _passwordVisible,
                   marginBottom: 40,
                 ),
                 ElevatedButton(
@@ -107,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (_formKey.currentState!.validate()) {
       BlocProvider.of<FormBloc>(context).add(
         FormEventLogin(
-          username: _usernameController.text,
+          email: _emailController.text,
           password: _passwordController.text,
         ),
       );
@@ -120,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
       _loading?.show();
     } else if (state is KbFormStateSuccess) {
       _loading?.dismiss();
-      Navigation.slideToLeft(context, AppRouter.home());
+      Navigator.pop(context, true);
     } else if (state is KbFormStateError) {
       _loading?.dismiss();
       ScaffoldMessenger.of(context).showSnackBar(

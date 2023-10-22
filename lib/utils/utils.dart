@@ -12,4 +12,5 @@ final currencyWithoutSymbolFormat = NumberFormat.currency(
   decimalDigits: 0,
 );
 
+final dateTimeFormat = DateFormat('dd/MM/yyyy, HH:mm');
 final dateFormat = DateFormat('dd/MM/yyyy');

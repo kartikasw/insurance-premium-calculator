@@ -18,4 +18,8 @@ enum CoverageRisk {
   int get code => _code;
 
   double get rate => _rate;
+
+  static getCoverageRiskByCode(int code) {
+    return values.firstWhere((e) => e.code == code, orElse: () => flood);
+  }
 }

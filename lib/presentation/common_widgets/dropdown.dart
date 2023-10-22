@@ -22,7 +22,7 @@ class KbDropdown extends StatelessWidget {
     Widget mainWidget = DropdownButtonFormField(
       items: items,
       value: selectedItem,
-      onChanged: (value) => onChanged(value),
+      onChanged: onChanged,
       elevation: 0,
       decoration: InputDecoration(
         filled: true,
