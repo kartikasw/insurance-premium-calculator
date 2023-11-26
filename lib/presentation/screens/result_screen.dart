@@ -65,7 +65,7 @@ class _ResultScreenState extends State<ResultScreen> {
 
   Future<void> _generatePdf() async {
     pw.Document document = pw.Document();
-    String rawSvg = await _readFile(Assets.iconsKb.path);
+    String rawSvg = await _readFile(Assets.iconsInsurance.path);
     debugPrint('pattern : $rawSvg');
     pw.Widget logo = pw.SvgImage(svg: rawSvg, height: 35);
 
@@ -120,7 +120,7 @@ class _ResultScreenState extends State<ResultScreen> {
                   child: logo,
                 ),
                 pw.Text(
-                  'KB Insurance Indonesia',
+                  'Insurance Indonesia',
                   style: pw.TextStyle(
                     fontSize: 20,
                     fontWeight: pw.FontWeight.bold,

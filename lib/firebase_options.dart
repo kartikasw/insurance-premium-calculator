@@ -3,6 +3,7 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:insurance_challenge/env/env.dart';
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -46,30 +47,30 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBEhBN-tXqHQ_I0gWwVnPjmA4WwR8Y1E6k',
-    appId: '1:943794067234:web:0a608b834487151ab8777b',
-    messagingSenderId: '943794067234',
-    projectId: 'insurance-challenge',
-    authDomain: 'insurance-challenge.firebaseapp.com',
-    storageBucket: 'insurance-challenge.appspot.com',
-    measurementId: 'G-M62325RZJ2',
+  static FirebaseOptions web = FirebaseOptions(
+    apiKey: Env.webApiKey,
+    appId: Env.webAppId,
+    messagingSenderId: Env.webMessagingSender,
+    projectId: Env.webProjectId,
+    authDomain: Env.webAuthDomain,
+    storageBucket: Env.webStorageBucket,
+    measurementId: Env.webMeasurementId,
   );
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAtisJIKjIeet7oxO4V8p7L2gKL7XNirXY',
-    appId: '1:943794067234:android:ea45cd8585b6a8c3b8777b',
-    messagingSenderId: '943794067234',
-    projectId: 'insurance-challenge',
-    storageBucket: 'insurance-challenge.appspot.com',
+  static FirebaseOptions android = FirebaseOptions(
+    apiKey: Env.androidApiKey,
+    appId: Env.androidAppId,
+    messagingSenderId: Env.androidMessagingSender,
+    projectId: Env.androidProjectId,
+    storageBucket: Env.androidStorageBucket,
   );
 
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAC591TSktg1VWqnxhL75a2Wrh2O383aLM',
-    appId: '1:943794067234:ios:c73c939154f6f240b8777b',
-    messagingSenderId: '943794067234',
-    projectId: 'insurance-challenge',
-    storageBucket: 'insurance-challenge.appspot.com',
-    iosBundleId: 'com.kartikadev.insuranceChallenge',
+  static FirebaseOptions ios = FirebaseOptions(
+    apiKey: Env.iosApiKey,
+    appId: Env.iosAppId,
+    messagingSenderId: Env.iosMessagingSender,
+    projectId: Env.iosProjectId,
+    storageBucket: Env.iosStorageBucket,
+    iosBundleId: Env.iosBundleId,
   );
 }
